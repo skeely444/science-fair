@@ -1,6 +1,7 @@
 import cv2
 import mediapipe
 import numpy as np
+import os
 
 # Setup MediaPipe modules
 drawingModule = mediapipe.solutions.drawing_utils
@@ -11,6 +12,8 @@ capture = cv2.VideoCapture(0)
 
 frameWidth = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
 frameHeight = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+i = 0
 
 # Create hand tracking object and process frames
 with handsModule.Hands(
@@ -135,11 +138,34 @@ with handsModule.Hands(
                 pinky_tip_y = int(pinky_tip.y * frameHeight)
                 pinky_tip_z = pinky_tip.z
                 
-                print(f"Wrist: \n x: {wrist_x} \n y: {wrist_y}")
-                print(f"ThumbToHand: \n x: {thumb_to_hand_x} \n y: {thumb_to_hand_y}")
+                """print(f"Wrist: \n x: {wrist_x} \n y: {wrist_y}")"""
 
-                test = np.array([[pinky_base_to_next_x], [pinky_base_to_next_y]])
-                np.save("data", test)
+                """print(f"ThumbToHand: \n x: {thumb_to_hand_x} \n y: {thumb_to_hand_y}")
+                print(f"ThumbBaseToNext: \n x: {thumb_base_to_next_x} \n y: {thumb_base_to_next_y}")
+                print(f"ThumbNextToNext: \n x: {thumb_next_to_next_x} \n y: {thumb_next_to_next_y}")"""
+                #print(f"ThumbTip: \n x: {thumb_tip_x} \n y: {thumb_tip_y}")
+
+                """print(f"IndexToHand: \n x: {index_to_hand_x} \n y: {index_to_hand_y}")
+                print(f"IndexBaseToNext: \n x: {index_base_to_next_x} \n y: {index_base_to_next_y}")
+                print(f"IndexNextToNext: \n x: {index_next_to_next_x} \n y: {index_next_to_next_y}")"""
+                #print(f"IndexTip: \n x: {index_tip_x} \n y: {index_tip_y}")
+
+                """print(f"MiddleToHand: \n x: {middle_to_hand_x} \n y: {middle_to_hand_y}")
+                print(f"MiddleBaseToNext: \n x: {middle_base_to_next_x} \n y: {middle_base_to_next_y}")
+                print(f"MiddleNextToNext: \n x: {middle_next_to_next_x} \n y: {middle_next_to_next_y}")
+                print(f"MiddleTip: \n x: {middle_tip_x} \n y: {middle_tip_y}")
+
+                print(f"RingToHand: \n x: {ring_to_hand_x} \n y: {ring_to_hand_y}")
+                print(f"RingBaseToNext: \n x: {ring_base_to_next_x} \n y: {ring_base_to_next_y}")
+                print(f"RingNextToNext: \n x: {ring_next_to_next_x} \n y: {ring_next_to_next_y}")
+                print(f"RingTip: \n x: {ring_tip_x} \n y: {ring_tip_y}")
+
+                print(f"PinkyToHand: \n x: {pinky_to_hand_x} \n y: {pinky_to_hand_y}")
+                print(f"PinkyBaseToNext: \n x: {pinky_base_to_next_x} \n y: {pinky_base_to_next_y}")
+                print(f"PinkyNextToNext: \n x: {pinky_next_to_next_x} \n y: {pinky_next_to_next_y}")
+                print(f"PinkyTip: \n x: {pinky_tip_x} \n y: {pinky_tip_y}")"""
+
+                #use = False
                 
                 if ((thumb_to_hand_y < wrist_y) and (thumb_base_to_next_y < thumb_to_hand_y) and (thumb_next_to_next_y  < thumb_base_to_next_y) and (thumb_tip_y < thumb_next_to_next_y)) and \
                     ((thumb_tip_x < index_tip_x) and (thumb_tip_x < middle_tip_x) and (thumb_tip_x < ring_tip_x) and (thumb_tip_x < pinky_tip_x)) and \
@@ -148,19 +174,43 @@ with handsModule.Hands(
                     ((index_tip_y > index_to_hand_y) and (middle_tip_y > middle_to_hand_y) and (ring_tip_y > ring_to_hand_y) and (pinky_tip_y > pinky_to_hand_y)):
                     cv2.putText(frame, "THUMBS UP!", (50, 50), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                elif ((index_to_hand_y < wrist_y) and (index_base_to_next_y < index_to_hand_y) and (index_next_to_next_y  < index_base_to_next_y) and (index_tip_y < index_next_to_next_y)) and \
-                    ((middle_to_hand_y < wrist_y) and (middle_base_to_next_y < middle_to_hand_y) and (middle_next_to_next_y  < middle_base_to_next_y) and (middle_tip_y < middle_next_to_next_y)) and\
-                    ((thumb_tip_y <= ring_next_to_next_y) and (ring_tip_y > ring_to_hand_y) and (pinky_tip_y > pinky_to_hand_y)) and \
-                    ((middle_tip_x - index_tip_x) >= 0.11 * frameWidth):
+                # Refined logic for Peace Sign
+                elif (index_tip_y < index_next_to_next_y < index_base_to_next_y < index_to_hand_y) and \
+                    (middle_tip_y < middle_next_to_next_y < middle_base_to_next_y < middle_to_hand_y) and \
+                    (ring_tip_y > ring_base_to_next_y) and \
+                    (pinky_tip_y > pinky_base_to_next_y) and \
+                    (thumb_tip_x > index_tip_x) and \
+                    (abs(middle_tip_x - index_tip_x) > 0.05 * frameWidth):
                     cv2.putText(frame, "PEACE!", (50, 50), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                elif (middle_tip_y < middle_next_to_next_y < middle_base_to_next_y < middle_to_hand_y) and \
+                    (ring_tip_y < ring_next_to_next_y < ring_base_to_next_y < ring_to_hand_y) and \
+                    (pinky_tip_y < pinky_next_to_next_y < pinky_base_to_next_y < pinky_to_hand_y) and \
+                    (thumb_tip_y - index_tip_y <= 30) and \
+                    (thumb_tip_x - index_tip_x <= 10):
+                    print("OKAY!")
+                    cv2.putText(frame, "OKAY!", (50, 50),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) , 2)
         # Show the result
         cv2.imshow('Hand Tracking - Press ESC to quit', frame)
         
         # Press ESC (key 27) to quit
         if cv2.waitKey(1) == 27:
+            path = "C:/Users/mauro/OneDrive/Desktop/science-fair/ThumbsUpSnapShots"
+            if not os.path.exists(path):
+                os.makedirs(path)
+            snapshot = np.array([
+                [thumb_to_hand_x, thumb_to_hand_y, thumb_base_to_next_x, thumb_base_to_next_y, thumb_next_to_next_x, thumb_next_to_next_y, thumb_tip_x, thumb_tip_y],
+                [index_to_hand_x, index_to_hand_y, index_base_to_next_x, index_base_to_next_y, index_next_to_next_x, index_next_to_next_y, index_tip_x, index_tip_y],
+                [middle_to_hand_x, middle_to_hand_y, middle_base_to_next_x, middle_base_to_next_y, middle_next_to_next_x, middle_next_to_next_y, middle_tip_x, middle_tip_y],
+                [ring_to_hand_x, ring_to_hand_y, ring_base_to_next_x, ring_base_to_next_y, ring_next_to_next_x, ring_next_to_next_y, ring_tip_x, ring_tip_y],
+                [pinky_to_hand_x, pinky_to_hand_y, pinky_base_to_next_x, pinky_base_to_next_y, pinky_next_to_next_x, pinky_next_to_next_y, pinky_tip_x, pinky_tip_y]
+            ])
+            np.save(os.path.join(path, f"data{i}"), snapshot)
+            print("Saved")
+            i += 1
+        elif cv2.waitKey(1) == 99:
             break
-
 # Clean up
 cv2.destroyAllWindows()
 capture.release()
