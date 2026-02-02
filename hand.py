@@ -188,7 +188,6 @@ with handsModule.Hands(
                     (pinky_tip_y < pinky_next_to_next_y < pinky_base_to_next_y < pinky_to_hand_y) and \
                     (thumb_tip_y - index_tip_y <= 30) and \
                     (thumb_tip_x - index_tip_x <= 10):
-                    print("OKAY!")
                     cv2.putText(frame, "OKAY!", (50, 50),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0) , 2)
         # Show the result
@@ -196,7 +195,7 @@ with handsModule.Hands(
         
         # Press ESC (key 27) to quit
         if cv2.waitKey(1) == 27:
-            path = "C:/Users/mauro/OneDrive/Desktop/science-fair/ThumbsUpSnapShots"
+            path = "C:/Users/mauro/OneDrive/Desktop/science-fair/OkaySignSnapShots"
             if not os.path.exists(path):
                 os.makedirs(path)
             snapshot = np.array([
