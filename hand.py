@@ -8,7 +8,8 @@ drawingModule = mediapipe.solutions.drawing_utils
 handsModule = mediapipe.solutions.hands
 
 # Start webcam
-capture = cv2.VideoCapture(0)
+fra = "C:/Users/mauro/OneDrive/Desktop/science-fair/ThumbsUpVideoFootage/WIN_20260202_17_51_34_Pro.mp4"
+capture = cv2.VideoCapture(fra)
 
 frameWidth = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
 frameHeight = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
