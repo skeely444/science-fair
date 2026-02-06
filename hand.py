@@ -9,7 +9,7 @@ handsModule = mediapipe.solutions.hands
 
 # Start webcam
 fra = "C:/Users/mauro/OneDrive/Desktop/science-fair/ThumbsUpVideoFootage/WIN_20260202_17_51_34_Pro.mp4"
-capture = cv2.VideoCapture(fra)
+capture = cv2.VideoCapture(0)
 
 frameWidth = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
 frameHeight = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -139,19 +139,19 @@ with handsModule.Hands(
                 pinky_tip_y = int(pinky_tip.y * frameHeight)
                 pinky_tip_z = pinky_tip.z
                 
-                """print(f"Wrist: \n x: {wrist_x} \n y: {wrist_y}")"""
+                print(f"Wrist: \n x: {wrist_x} \n y: {wrist_y}")
 
-                """print(f"ThumbToHand: \n x: {thumb_to_hand_x} \n y: {thumb_to_hand_y}")
+                print(f"ThumbToHand: \n x: {thumb_to_hand_x} \n y: {thumb_to_hand_y}")
                 print(f"ThumbBaseToNext: \n x: {thumb_base_to_next_x} \n y: {thumb_base_to_next_y}")
-                print(f"ThumbNextToNext: \n x: {thumb_next_to_next_x} \n y: {thumb_next_to_next_y}")"""
-                #print(f"ThumbTip: \n x: {thumb_tip_x} \n y: {thumb_tip_y}")
+                print(f"ThumbNextToNext: \n x: {thumb_next_to_next_x} \n y: {thumb_next_to_next_y}")
+                print(f"ThumbTip: \n x: {thumb_tip_x} \n y: {thumb_tip_y}")
 
-                """print(f"IndexToHand: \n x: {index_to_hand_x} \n y: {index_to_hand_y}")
+                print(f"IndexToHand: \n x: {index_to_hand_x} \n y: {index_to_hand_y}")
                 print(f"IndexBaseToNext: \n x: {index_base_to_next_x} \n y: {index_base_to_next_y}")
-                print(f"IndexNextToNext: \n x: {index_next_to_next_x} \n y: {index_next_to_next_y}")"""
-                #print(f"IndexTip: \n x: {index_tip_x} \n y: {index_tip_y}")
+                print(f"IndexNextToNext: \n x: {index_next_to_next_x} \n y: {index_next_to_next_y}")
+                print(f"IndexTip: \n x: {index_tip_x} \n y: {index_tip_y}")
 
-                """print(f"MiddleToHand: \n x: {middle_to_hand_x} \n y: {middle_to_hand_y}")
+                print(f"MiddleToHand: \n x: {middle_to_hand_x} \n y: {middle_to_hand_y}")
                 print(f"MiddleBaseToNext: \n x: {middle_base_to_next_x} \n y: {middle_base_to_next_y}")
                 print(f"MiddleNextToNext: \n x: {middle_next_to_next_x} \n y: {middle_next_to_next_y}")
                 print(f"MiddleTip: \n x: {middle_tip_x} \n y: {middle_tip_y}")
@@ -164,9 +164,9 @@ with handsModule.Hands(
                 print(f"PinkyToHand: \n x: {pinky_to_hand_x} \n y: {pinky_to_hand_y}")
                 print(f"PinkyBaseToNext: \n x: {pinky_base_to_next_x} \n y: {pinky_base_to_next_y}")
                 print(f"PinkyNextToNext: \n x: {pinky_next_to_next_x} \n y: {pinky_next_to_next_y}")
-                print(f"PinkyTip: \n x: {pinky_tip_x} \n y: {pinky_tip_y}")"""
+                print(f"PinkyTip: \n x: {pinky_tip_x} \n y: {pinky_tip_y}")
 
-                #use = False
+                use = False
                 
                 if ((thumb_to_hand_y < wrist_y) and (thumb_base_to_next_y < thumb_to_hand_y) and (thumb_next_to_next_y  < thumb_base_to_next_y) and (thumb_tip_y < thumb_next_to_next_y)) and \
                     ((thumb_tip_x < index_tip_x) and (thumb_tip_x < middle_tip_x) and (thumb_tip_x < ring_tip_x) and (thumb_tip_x < pinky_tip_x)) and \

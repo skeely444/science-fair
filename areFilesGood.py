@@ -2,7 +2,7 @@ import numpy as np
 import os
 from sklearn.model_selection import train_test_split
 
-signs = ['good', 'hello', 'okay', 'peace']
+signs = ['good', 'hello', 'okay', 'peace', 'thanks']
 X = []  # All landmark data
 y = []  # All labels
 

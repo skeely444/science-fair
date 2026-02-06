@@ -88,7 +88,8 @@ signs = {
     'ThumbsUpVideoFootage': 'good',  # folder name: sign name
     'PeaceVideoFootage': 'peace',
     'OkaySignVideoFootage': 'okay',
-    'WaveVideoFootage': 'hello'
+    'WaveVideoFootage': 'hello',
+    'ThankYouVideoFootage': 'thanks'
 }
 
 # Process all videos automatically!
