@@ -85,9 +85,10 @@ VIDEO_BASE_PATH = "C:/Users/mauro/OneDrive/Desktop/science-fair"  # ← CHANGE T
 
 # What are your sign folders called?
 signs = {
-    'ThumbsUpVideoFootage': 'thumbs_up',  # folder name: sign name
+    'ThumbsUpVideoFootage': 'good',  # folder name: sign name
     'PeaceVideoFootage': 'peace',
-    'OkaySignVideoFootage': 'ok'
+    'OkaySignVideoFootage': 'okay',
+    'WaveVideoFootage': 'hello'
 }
 
 # Process all videos automatically!
