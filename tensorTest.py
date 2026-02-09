@@ -1,36 +1,28 @@
 import tensorflow as tf
+import numpy as np
 print("TensorFlow version:", tf.__version__)
 
-mnist = tf.keras.datasets.mnist
-
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_train, x_test = x_train / 255.0, x_test / 255.0
+xTrain = np.load("X_train.npy")
+yTrain = np.load("Y_train.npy")
+xTest = np.load("X_test.npy")
+yTest = np.load("Y_test.npy")
 
 model = tf.keras.models.Sequential([
-  tf.keras.Input(shape=(28, 28)),
-  tf.keras.layers.Flatten(),
+  tf.keras.Input(shape=(63,)),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dropout(0.2),
-  tf.keras.layers.Dense(10)
+  tf.keras.layers.Dense(64, activation='relu'),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dense(5, activation='softmax')
 ])
 
-predictions = model(x_train[:1]).numpy()
-print(predictions)
-
-tf.nn.softmax(predictions).numpy()
-loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-print(loss_fn(y_train[:1], predictions).numpy())
+loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
 model.compile(optimizer = 'adam',
               loss = loss_fn,
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=5)
-model.evaluate(x_test, y_test, verbose=2)
-
-probability_model = tf.keras.Sequential([
-    model,
-    tf.keras.layers.Softmax()
-])
-print(probability_model(x_test[:5]))
-model.save('test.h5')
+model.fit(xTrain, yTrain, epochs=50, batch_size=32, validation_split=0.2)
+test_loss, test_accuracy = model.evaluate(xTest, yTest, verbose=1)
+print(f"\n🎉 FINAL TEST ACCURACY: {test_accuracy * 100:.2f}%")
+model.save("SAI.keras")
