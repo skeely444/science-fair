@@ -139,7 +139,7 @@ with handsModule.Hands(
                 pinky_tip_y = int(pinky_tip.y * frameHeight)
                 pinky_tip_z = pinky_tip.z
                 
-                print(f"Wrist: \n x: {wrist_x} \n y: {wrist_y}")
+                """print(f"Wrist: \n x: {wrist_x} \n y: {wrist_y}")
 
                 print(f"ThumbToHand: \n x: {thumb_to_hand_x} \n y: {thumb_to_hand_y}")
                 print(f"ThumbBaseToNext: \n x: {thumb_base_to_next_x} \n y: {thumb_base_to_next_y}")
@@ -163,8 +163,8 @@ with handsModule.Hands(
 
                 print(f"PinkyToHand: \n x: {pinky_to_hand_x} \n y: {pinky_to_hand_y}")
                 print(f"PinkyBaseToNext: \n x: {pinky_base_to_next_x} \n y: {pinky_base_to_next_y}")
-                print(f"PinkyNextToNext: \n x: {pinky_next_to_next_x} \n y: {pinky_next_to_next_y}")
-                print(f"PinkyTip: \n x: {pinky_tip_x} \n y: {pinky_tip_y}")
+                print(f"PinkyNextToNext: \n x: {pinky_next_to_next_x} \n y: {pinky_next_to_next_y}")"""
+                print(f"PinkyTip: \n x: {pinky_tip.x} \n y: {pinky_tip.y}")
 
                 use = False
                 
