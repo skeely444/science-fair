@@ -1,10 +1,10 @@
 import numpy as np
 
 # Load data
-X_train = np.load('X_train.npy')
-y_train = np.load('y_train.npy')
-X_test = np.load('X_test.npy')
-y_test = np.load('y_test.npy')
+X_train = np.load('Xnew_train.npy')
+y_train = np.load('yNew_train.npy')
+X_test = np.load('Xnew_test.npy')
+y_test = np.load('yNew_test.npy')
 
 # Print info
 print("="*60)
