@@ -16,7 +16,7 @@ print(f"Feature shape: {X_train.shape}")
 print(f"Number of signs: {len(set(y_train))}")
 
 # Count each sign
-signs = ['thumbs_up', 'peace', 'ok', 'hello', 'thank_you']
+signs = ['good', 'peace', 'okay', 'home', 'me', 'you', 'garbage']
 print("\nSamples per sign (training):")
 for i, sign in enumerate(signs):
     count = sum(y_train == i)

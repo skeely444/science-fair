@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 print("TensorFlow version:", tf.__version__)
 
-xTrain = np.load("X_train.npy")
-yTrain = np.load("Y_train.npy")
-xTest = np.load("X_test.npy")
-yTest = np.load("Y_test.npy")
+xTrain = np.load("Xnew_train.npy")
+yTrain = np.load("yNew_train.npy")
+xTest = np.load("Xnew_test.npy")
+yTest = np.load("yNew_test.npy")
 
 
 def change_lighting(data, factor=0.5):
@@ -29,10 +29,12 @@ def apply_gaussian_noise(data, sigma=0.05):
     noise = np.random.normal(0, sigma, data.shape)
     return np.clip(data + noise, 0, 1)
 
-xTest_noisy = apply_gaussian_noise(xTest, sigma=0.132)
-xTrain_noisy = apply_gaussian_noise(xTrain, sigma=0.15)
-xTest_dark = change_lighting(xTest, factor=0.7)
+xTrain_noisyLow = apply_gaussian_noise(xTrain, sigma=0.1)
+xTrain_noisyMed = apply_gaussian_noise(xTrain, sigma=0.15)
+xTrain_noisyHigh = apply_gaussian_noise(xTrain, sigma=0.2)
+xTest_noisy = apply_gaussian_noise(xTest, sigma=0.15)
 xTrain_dark = change_lighting(xTrain, factor=0.6)
+xTest_dark = change_lighting(xTest, factor = 0.7)
 xTrain_blurredLow = apply_gaussian_blur(xTrain, sigma=1.5)
 xTrain_blurredMed = apply_gaussian_blur(xTrain, sigma=2.0)
 xTrain_blurredHeavy  =apply_gaussian_blur(xTrain, sigma=2.5)
@@ -40,13 +42,15 @@ xTest_blurred = apply_gaussian_blur(xTest, sigma=2.3)
 
 xTrain_combined = np.concatenate([
     xTrain, 
-    xTrain_noisy, 
+    xTrain_noisyLow,
+    xTrain_noisyMed,
+    xTrain_noisyHigh,
     xTrain_dark, 
     xTrain_blurredLow, 
     xTrain_blurredMed, 
     xTrain_blurredHeavy
 ], axis=0)
-yTrain_combined = np.concatenate([yTrain, yTrain, yTrain, yTrain, yTrain, yTrain], axis=0)
+yTrain_combined = np.concatenate([yTrain, yTrain, yTrain, yTrain, yTrain, yTrain, yTrain, yTrain], axis=0)
 indices = np.arange(xTrain_combined.shape[0])
 np.random.shuffle(indices)
 xTrain_combined = xTrain_combined[indices]
@@ -62,7 +66,7 @@ model = tf.keras.models.Sequential([
   tf.keras.layers.Dense(250, activation='relu'),
   tf.keras.layers.BatchNormalization(), # Added for stability
   tf.keras.layers.Dropout(0.3),
-  tf.keras.layers.Dense(5, activation='softmax')
+  tf.keras.layers.Dense(7, activation='softmax')
 ])
 
 loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
@@ -76,7 +80,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule),
               loss=loss_fn,
               metrics=['accuracy'])
 
-history = model.fit(xTrain_combined, yTrain_combined, epochs=70, batch_size=32, validation_split=0.2, shuffle=True)
+history = model.fit(xTrain_combined, yTrain_combined, epochs=90, batch_size=32, validation_split=0.2, shuffle=True)
 test_loss, test_accuracy = model.evaluate(xTest, yTest, verbose=2)
 print(f"\n🎉 REGULAR TEST ACCURACY: {test_accuracy * 100:.2f}%")
 
@@ -133,7 +137,7 @@ plt.ylabel("Loss")
 plt.legend()
 
 plt.tight_layout()
-plt.savefig(f"MaybeTheOne.png")
+plt.savefig(f"TheOne.png")
 plt.show()
 
-model.save("maybeTheOne.keras")
+model.save("TheOne.keras")

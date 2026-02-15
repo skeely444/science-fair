@@ -2,7 +2,7 @@ import numpy as np
 import os
 from sklearn.model_selection import train_test_split
 
-signs = ['good', 'hello', 'okay', 'peace', 'thanks']
+signs = ['good', 'peace', 'okay', 'home', 'me', 'you', 'garbage']
 X = []  # All landmark data
 y = []  # All labels
 
@@ -14,7 +14,7 @@ for sign_id, sign in enumerate(signs):
     for file in files:
         try:
             landmarks = np.load(os.path.join(folder, file))
-            if landmarks.shape == (30, 63):  # Valid sample
+            if landmarks.shape == (63,):  # Valid sample
                 X.append(landmarks)
                 y.append(sign_id)
         except:

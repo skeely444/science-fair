@@ -63,8 +63,8 @@ def process_video(video_path, sign_name, video_number):
                     for lm in results.multi_hand_landmarks[0].landmark:
                         landmarks.extend([lm.x, lm.y, lm.z])
                     
-                    os.makedirs(f'data/{sign_name}', exist_ok=True)
-                    filename = f'data/{sign_name}/{sign_name}_v{video_number}_f{frame_count}.npy'
+                    os.makedirs(f'new_data/{sign_name}', exist_ok=True)
+                    filename = f'new_data/{sign_name}/{sign_name}_v{video_number}_f{frame_count}.npy'
                     np.save(filename, landmarks)
                     samples_saved += 1
             
@@ -88,8 +88,10 @@ signs = {
     'ThumbsUpVideoFootage': 'good',  # folder name: sign name
     'PeaceVideoFootage': 'peace',
     'OkaySignVideoFootage': 'okay',
-    'WaveVideoFootage': 'hello',
-    'ThankYouVideoFootage': 'thanks'
+    'homeVideoFootage': 'home',
+    'meVideoFootage': 'me',
+    'youVideoFootage': 'you',
+    'garbageSigns(failed)': 'garbage'
 }
 
 # Process all videos automatically!
@@ -131,9 +133,9 @@ try:
     print(f"🎉 ALL DONE!")
     print(f"{'='*60}")
     print(f"Total samples collected: {total_samples_all}")
-    print(f"\nData saved in 'data/' folder:")
+    print(f"\nData saved in 'new_data/' folder:")
     for sign_name in signs.values():
-        folder = f'data/{sign_name}'
+        folder = f'new_data/{sign_name}'
         if os.path.exists(folder):
             count = len([f for f in os.listdir(folder) if f.endswith('.npy')])
             print(f"  {sign_name}: {count} files")
