@@ -91,6 +91,7 @@ signs = {
     'homeVideoFootage': 'home',
     'meVideoFootage': 'me',
     'youVideoFootage': 'you',
+    'haltVideoFootage': 'halt',
     'garbageSigns(failed)': 'garbage'
 }
 

@@ -29,10 +29,9 @@ def apply_gaussian_noise(data, sigma=0.05):
     noise = np.random.normal(0, sigma, data.shape)
     return np.clip(data + noise, 0, 1)
 
-xTrain_noisyLow = apply_gaussian_noise(xTrain, sigma=0.1)
-xTrain_noisyMed = apply_gaussian_noise(xTrain, sigma=0.15)
-xTrain_noisyHigh = apply_gaussian_noise(xTrain, sigma=0.2)
-xTest_noisy = apply_gaussian_noise(xTest, sigma=0.15)
+xTrain_noisyLow = apply_gaussian_noise(xTrain, sigma=0.08)
+xTrain_noisyMed = apply_gaussian_noise(xTrain, sigma=0.12)
+xTest_noisy = apply_gaussian_noise(xTest, sigma=0.13)
 xTrain_dark = change_lighting(xTrain, factor=0.6)
 xTest_dark = change_lighting(xTest, factor = 0.7)
 xTrain_blurredLow = apply_gaussian_blur(xTrain, sigma=1.5)
@@ -44,13 +43,12 @@ xTrain_combined = np.concatenate([
     xTrain, 
     xTrain_noisyLow,
     xTrain_noisyMed,
-    xTrain_noisyHigh,
     xTrain_dark, 
     xTrain_blurredLow, 
     xTrain_blurredMed, 
     xTrain_blurredHeavy
 ], axis=0)
-yTrain_combined = np.concatenate([yTrain, yTrain, yTrain, yTrain, yTrain, yTrain, yTrain, yTrain], axis=0)
+yTrain_combined = np.concatenate([yTrain, yTrain, yTrain, yTrain, yTrain, yTrain, yTrain], axis=0)
 indices = np.arange(xTrain_combined.shape[0])
 np.random.shuffle(indices)
 xTrain_combined = xTrain_combined[indices]
@@ -66,7 +64,7 @@ model = tf.keras.models.Sequential([
   tf.keras.layers.Dense(250, activation='relu'),
   tf.keras.layers.BatchNormalization(), # Added for stability
   tf.keras.layers.Dropout(0.3),
-  tf.keras.layers.Dense(7, activation='softmax')
+  tf.keras.layers.Dense(8, activation='softmax')
 ])
 
 loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
@@ -80,7 +78,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule),
               loss=loss_fn,
               metrics=['accuracy'])
 
-history = model.fit(xTrain_combined, yTrain_combined, epochs=90, batch_size=32, validation_split=0.2, shuffle=True)
+history = model.fit(xTrain_combined, yTrain_combined, epochs=70, batch_size=32, validation_split=0.2, shuffle=True)
 test_loss, test_accuracy = model.evaluate(xTest, yTest, verbose=2)
 print(f"\n🎉 REGULAR TEST ACCURACY: {test_accuracy * 100:.2f}%")
 
@@ -137,7 +135,7 @@ plt.ylabel("Loss")
 plt.legend()
 
 plt.tight_layout()
-plt.savefig(f"TheOne.png")
+plt.savefig(f"TheBetterOne.png")
 plt.show()
 
-model.save("TheOne.keras")
+model.save("TheBetterOne.keras")

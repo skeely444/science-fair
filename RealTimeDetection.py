@@ -10,7 +10,7 @@ import threading
 # --- YOUR ORIGINAL SETUP ---
 drawingModule = mp.solutions.drawing_utils
 handsModule = mp.solutions.hands
-aiModel = tf.keras.models.load_model("TheOne.keras")
+aiModel = tf.keras.models.load_model("TheBetterOne.keras")
 capture = cv2.VideoCapture(0)
 
 # Track if we are currently speaking to avoid crashing the engine
@@ -42,6 +42,7 @@ chairSaidTimes = 0
 homeSaidTimes = 0
 youSaidTimes = 0
 meSaidTimes = 0
+haltSaidTimmes = 0
 
 use = True
 
@@ -91,14 +92,8 @@ with handsModule.Hands(
                         if homeSaidTimes == 0:
                             speak_safely("home")
                             homeSaidTimes = 1
-                        thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=youSaidTimes=0
+                        thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=youSaidTimes=haltSaidTimmes=0
                     
-                    elif labledYPred[0] == 6 and labledYPred[1] == 6:
-                        cv2.putText(display_frame, "Chair", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                        if chairSaidTimes == 0:
-                            speak_safely("chair")
-                            chairSaidTimes = 1
-                        thumbSaidTimes=peaceSaidTimes=okaySaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=0
 
                 # Single-Hand Logic (Always safe to check index 0 if len > 0)
                 if labledYPred[0] == 0:
@@ -106,38 +101,45 @@ with handsModule.Hands(
                     if thumbSaidTimes == 0:
                         speak_safely("good")
                         thumbSaidTimes = 1
-                    peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=0
+                    peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
                 
                 elif labledYPred[0] == 1:
                     cv2.putText(display_frame, "Peace", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if peaceSaidTimes == 0:
                         speak_safely("peace")
                         peaceSaidTimes = 1
-                    thumbSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=0
+                    thumbSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
 
                 elif labledYPred[0] == 2:
                     cv2.putText(display_frame, "Okay", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if okaySaidTimes == 0:
                         speak_safely("okay")
                         okaySaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=0
+                    thumbSaidTimes=peaceSaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
 
+                elif labledYPred[0] == 6:
+                    cv2.putText(display_frame, "Halt", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    if meSaidTimes == 0:
+                        speak_safely("halt")
+                        meSaidTimes = 1
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=0
+                
                 elif labledYPred[0] == 4:
                     cv2.putText(display_frame, "Me", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if meSaidTimes == 0:
                         speak_safely("me")
                         meSaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=0
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
 
                 elif labledYPred[0] == 5:
                     cv2.putText(display_frame, "You", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if youSaidTimes == 0:
                         speak_safely("you")
                         youSaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=0
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=haltSaidTimmes=0
 
-                elif labledYPred[0] == 6:
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=0
+                elif labledYPred[0] == 7:
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
 
         cv2.imshow("HandTracker", display_frame)
         if cv2.waitKey(1) == 27:
