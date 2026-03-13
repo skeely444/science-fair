@@ -43,8 +43,12 @@ homeSaidTimes = 0
 youSaidTimes = 0
 meSaidTimes = 0
 haltSaidTimmes = 0
+fuckyouSaidTimes = 0
 
 use = True
+
+# Create a resizable window so the video feed can be resized by the user
+
 
 with handsModule.Hands(
     static_image_mode = False,
@@ -92,7 +96,7 @@ with handsModule.Hands(
                         if homeSaidTimes == 0:
                             speak_safely("home")
                             homeSaidTimes = 1
-                        thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=youSaidTimes=haltSaidTimmes=0
+                        thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=youSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
                     
 
                 # Single-Hand Logic (Always safe to check index 0 if len > 0)
@@ -101,45 +105,45 @@ with handsModule.Hands(
                     if thumbSaidTimes == 0:
                         speak_safely("good")
                         thumbSaidTimes = 1
-                    peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
+                    peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
                 
                 elif labledYPred[0] == 1:
                     cv2.putText(display_frame, "Peace", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if peaceSaidTimes == 0:
                         speak_safely("peace")
                         peaceSaidTimes = 1
-                    thumbSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
+                    thumbSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
 
                 elif labledYPred[0] == 2:
                     cv2.putText(display_frame, "Okay", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if okaySaidTimes == 0:
                         speak_safely("okay")
                         okaySaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
+                    thumbSaidTimes=peaceSaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
 
                 elif labledYPred[0] == 6:
                     cv2.putText(display_frame, "Halt", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if meSaidTimes == 0:
                         speak_safely("halt")
                         meSaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=0
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=fuckyouSaidTimes=0
                 
                 elif labledYPred[0] == 4:
                     cv2.putText(display_frame, "Me", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if meSaidTimes == 0:
                         speak_safely("me")
                         meSaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
 
                 elif labledYPred[0] == 5:
                     cv2.putText(display_frame, "You", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     if youSaidTimes == 0:
                         speak_safely("you")
                         youSaidTimes = 1
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=haltSaidTimmes=0
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
 
                 elif labledYPred[0] == 7:
-                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=0
+                    thumbSaidTimes=peaceSaidTimes=okaySaidTimes=chairSaidTimes=meSaidTimes=homeSaidTimes=youSaidTimes=haltSaidTimmes=fuckyouSaidTimes=0
 
         cv2.imshow("HandTracker", display_frame)
         if cv2.waitKey(1) == 27:
